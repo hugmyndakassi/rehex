@@ -6,6 +6,10 @@ Version TBC
 
  * Add support for "PRIMARY" selections on Linux/BSD (#20).
 
+ * Fix unchanged bytes being highlighted as changed (#274).
+
+ * Correctly annotate template variables repeated using a loop (#269).
+
  * Fix display of AT&T disassembly syntax menu option.
 
  * Fix crash when backspace is pressed at start of file (#282).
