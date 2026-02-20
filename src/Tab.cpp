@@ -852,7 +852,7 @@ void REHex::Tab::OnDocumentCtrlChar(wxKeyEvent &event)
 				*/
 				doc->erase_data(cursor_pos.byte(), 1, (cursor_pos - BitOffset(1, 4)), Document::CSTATE_GOTO, "delete");
 			}
-			else if(cursor_pos.bit() == 0 && cursor_pos_within_region.bit() == 0)
+			else if(cursor_pos.byte() > 0 && cursor_pos.bit() == 0 && cursor_pos_within_region.bit() == 0)
 			{
 				doc->erase_data((cursor_pos.byte() - 1), 1, (cursor_pos - BitOffset(1, 0)), Document::CSTATE_GOTO, "delete");
 			}

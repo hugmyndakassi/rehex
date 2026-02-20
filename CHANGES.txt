@@ -6,6 +6,10 @@ Version TBC
 
  * Add support for "PRIMARY" selections on Linux/BSD (#20).
 
+ * Fix display of AT&T disassembly syntax menu option.
+
+ * Fix crash when backspace is pressed at start of file (#282).
+
 Version 0.63.4 (2025-11-22):
 
  * Save selected value colour map in default view (#268).
