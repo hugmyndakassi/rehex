@@ -763,7 +763,7 @@ void REHex::Tab::OnDocumentCtrlChar(wxKeyEvent &event)
 		
 		return;
 	}
-	else if(doc_ctrl->ascii_view_active() && (modifiers == wxMOD_NONE || modifiers == wxMOD_SHIFT) && ukey != WXK_NONE && key != '\t')
+	else if(doc_ctrl->ascii_view_active() && (modifiers == wxMOD_NONE || modifiers == wxMOD_SHIFT) && ukey != WXK_NONE && key != '\t' && key != WXK_BACK)
 	{
 		wxCharBuffer utf8_buf = wxString(wxUniChar(ukey)).utf8_str();
 		std::string utf8_key(utf8_buf.data(), utf8_buf.length());
@@ -813,7 +813,7 @@ void REHex::Tab::OnDocumentCtrlChar(wxKeyEvent &event)
 			}
 			else if(cursor_pos.byte_aligned()
 				&& cursor_pos_within_region.byte_aligned()
-				&& (cursor_pos.byte() + 1) < doc->buffer_length())
+				&& (cursor_pos.byte() + 1) < (doc->buffer_length() + (off_t)(doc_ctrl->get_insert_mode())))
 			{
 				doc->erase_data(cursor_pos.byte(), 1, cursor_pos, Document::CSTATE_GOTO, "delete");
 			}
@@ -1666,6 +1666,11 @@ void REHex::Tab::repopulate_regions()
 		PROFILE_INNER_BLOCK("replace regions");
 		doc_ctrl->replace_all_regions(regions);
 	}
+
+	/* Copy Document cursor state to DocumentCtrl in case a previous update was rejected/clamped
+	 * due to a pending region update.
+	*/
+	doc_ctrl->set_cursor_position(doc->get_cursor_position(), doc->get_cursor_state());
 }
 
 void REHex::Tab::repopulate_regions_freeze()
